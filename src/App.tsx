@@ -1,5 +1,6 @@
-import { Button, Center, Grid, GridItem, Link, Text } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import Buttons from './Components/Buttons';
 
 const App = () => {
     return (
@@ -12,12 +13,22 @@ const App = () => {
             justifyContent="space-between"
             userSelect="none"
         >
-            <Text fontSize="5xl">✊ Rock - ✋ Paper - ✌ Scissors</Text>
-            <Grid w="8xl" templateColumns="repeat(4, 1fr)" h="500px">
+            <Text fontSize={{ base: '4xl', md: '5xl' }} textAlign="center">
+                ✊ Rock - ✋ Paper - ✌ Scissors
+            </Text>
+            <Grid
+                maxW="full"
+                w="8xl"
+                templateColumns={{
+                    base: 'repeat(1, 1fr)',
+                    xl: 'repeat(4, 1fr)',
+                }}
+                h="500px"
+            >
                 <GridItem
                     display="flex"
                     flexDirection="column"
-                    alignItems="start"
+                    alignItems={{ base: 'center', xl: 'start' }}
                     justifyContent="center"
                 >
                     <Text fontSize="4xl">
@@ -33,7 +44,7 @@ const App = () => {
                     flexDirection="row"
                     alignItems="center"
                     justifyContent="center"
-                    gap="32"
+                    gap={{ base: '16', sm: '20', md: '32' }}
                 >
                     <Text fontSize="8xl" transform="rotate(90deg)">
                         ✌
@@ -44,50 +55,14 @@ const App = () => {
                 </GridItem>
                 <GridItem
                     display="flex"
-                    flexDirection="column"
-                    alignItems="start"
+                    flexDirection={{ base: 'row', xl: 'column' }}
+                    alignItems="end"
                     justifyContent="center"
                     gap="5"
                 >
-                    <Button
-                        variant="outline"
-                        borderColor="#BE81E2"
-                        fontSize="5xl"
-                        w="150px"
-                        h="120px"
-                        _hover={{
-                            backgroundColor: '#CC98E8',
-                            borderColor: '#CC98E8',
-                        }}
-                    >
-                        ✊
-                    </Button>
-                    <Button
-                        variant="outline"
-                        borderColor="#BE81E2"
-                        fontSize="5xl"
-                        w="150px"
-                        h="120px"
-                        _hover={{
-                            backgroundColor: '#CC98E8',
-                            borderColor: '#CC98E8',
-                        }}
-                    >
-                        ✋
-                    </Button>
-                    <Button
-                        variant="outline"
-                        borderColor="#BE81E2"
-                        fontSize="5xl"
-                        w="150px"
-                        h="120px"
-                        _hover={{
-                            backgroundColor: '#CC98E8',
-                            borderColor: '#CC98E8',
-                        }}
-                    >
-                        ✌
-                    </Button>
+                    <Buttons>✊</Buttons>
+                    <Buttons>✋</Buttons>
+                    <Buttons>✌</Buttons>
                 </GridItem>
             </Grid>
             <Center gap="4" paddingY="3" fontSize="3xl">
