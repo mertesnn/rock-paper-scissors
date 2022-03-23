@@ -1,4 +1,5 @@
-import { Center, Grid, GridItem, Text } from '@chakra-ui/react'
+import { Center, Grid, GridItem, Text, type TextProps } from '@chakra-ui/react'
+import { motion, useAnimation } from 'framer-motion'
 import { useState } from 'react'
 import Buttons from './Components/Buttons'
 import Footer from './Components/Footer'
@@ -20,7 +21,14 @@ const App = () => {
         else return 'Tie!'
     }
 
-    const handleClick = (item: number) => {
+    const MotionText = motion<TextProps>(Text)
+    const controls = useAnimation()
+
+    const handleClick = async (item: number) => {
+        await controls.start({
+            y: [0, -50, 0, -50, 0, -50, 0],
+            transition: { duration: 1.5 },
+        })
         const computerMove = Math.round(Math.random() * 2)
         const check = checkWinner(item, computerMove)
         setWinner(check)
@@ -79,17 +87,17 @@ const App = () => {
                     justifyContent="center"
                 >
                     <Center gap={{ base: '16', sm: '20', md: '32' }}>
-                        <Text fontSize="8xl" transform="rotate(90deg)">
-                            {player}
-                        </Text>
-                        <Text fontSize="8xl" transform="rotate(270deg)">
-                            {computer}
-                        </Text>
+                        <MotionText fontSize="8xl" animate={controls}>
+                            <Text transform="rotate(90deg)">{player}</Text>
+                        </MotionText>
+                        <MotionText fontSize="8xl" animate={controls}>
+                            <Text transform="rotate(270deg)">{computer}</Text>
+                        </MotionText>
                     </Center>
                     <Center>
-                        <Text as="div" w="100%" h="20px">
+                        <Text as="div" w="100%" h="20px" fontSize="2xl">
                             {winner &&
-                                winner + (winner !== 'Tie!' ? ' won!' : '')}
+                                winner + (winner !== 'Tie!' ? ' won! 🏆' : '')}
                         </Text>
                     </Center>
                 </GridItem>
