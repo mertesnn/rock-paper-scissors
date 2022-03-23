@@ -1,8 +1,41 @@
-import { Center, Grid, GridItem, Link, Text } from '@chakra-ui/react';
-import { FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-import Buttons from './Components/Buttons';
+import { Center, Grid, GridItem, Text } from '@chakra-ui/react'
+import { useState } from 'react'
+import Buttons from './Components/Buttons'
+import Footer from './Components/Footer'
 
 const App = () => {
+    const [winner, setWinner] = useState<String | undefined>(undefined)
+    const [player, setPlayer] = useState<String>('✊')
+    const [computer, setComputer] = useState<String>('✊')
+    const [playerScore, setPlayerScore] = useState<any>(0)
+    const [computerScore, setComputerScore] = useState<any>(0)
+
+    const checkWinner = (player: number, computer: number) => {
+        if (player === 0 && computer === 1) return 'Computer'
+        else if (player === 1 && computer === 2) return 'Computer'
+        else if (player === 2 && computer === 0) return 'Computer'
+        else if (player === 2 && computer === 1) return 'Player'
+        else if (player === 1 && computer === 0) return 'Player'
+        else if (player === 0 && computer === 2) return 'Player'
+        else return 'Tie!'
+    }
+
+    const handleClick = (item: number) => {
+        const computerMove = Math.round(Math.random() * 2)
+        const check = checkWinner(item, computerMove)
+        setWinner(check)
+
+        if (check === 'Player') setPlayerScore(playerScore + 1)
+        else if (check === 'Computer') setComputerScore(computerScore + 1)
+
+        if (item === 0) setPlayer('✊')
+        else if (item === 1) setPlayer('✋')
+        else if (item === 2) setPlayer('✌')
+
+        if (computerMove === 0) setComputer('✊')
+        else if (computerMove === 1) setComputer('✋')
+        else if (computerMove === 2) setComputer('✌')
+    }
     return (
         <Center
             maxW="full"
@@ -32,26 +65,33 @@ const App = () => {
                     justifyContent="center"
                 >
                     <Text fontSize="4xl">
-                        🧑 Player: <Text as="span">0</Text>
+                        🧑 Player: <Text as="span">{playerScore}</Text>
                     </Text>
                     <Text fontSize="4xl">
-                        💻 Computer: <Text as="span">0</Text>
+                        💻 Computer: <Text as="span">{computerScore}</Text>
                     </Text>
                 </GridItem>
                 <GridItem
                     colSpan={2}
                     display="flex"
-                    flexDirection="row"
+                    flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
-                    gap={{ base: '16', sm: '20', md: '32' }}
                 >
-                    <Text fontSize="8xl" transform="rotate(90deg)">
-                        ✌
-                    </Text>
-                    <Text fontSize="8xl" transform="rotate(270deg)">
-                        ✋
-                    </Text>
+                    <Center gap={{ base: '16', sm: '20', md: '32' }}>
+                        <Text fontSize="8xl" transform="rotate(90deg)">
+                            {player}
+                        </Text>
+                        <Text fontSize="8xl" transform="rotate(270deg)">
+                            {computer}
+                        </Text>
+                    </Center>
+                    <Center>
+                        <Text as="div" w="100%" h="20px">
+                            {winner &&
+                                winner + (winner !== 'Tie!' ? ' won!' : '')}
+                        </Text>
+                    </Center>
                 </GridItem>
                 <GridItem
                     display="flex"
@@ -60,36 +100,14 @@ const App = () => {
                     justifyContent="center"
                     gap="5"
                 >
-                    <Buttons>✊</Buttons>
-                    <Buttons>✋</Buttons>
-                    <Buttons>✌</Buttons>
+                    <Buttons onClick={() => handleClick(0)}>✊</Buttons>
+                    <Buttons onClick={() => handleClick(1)}>✋</Buttons>
+                    <Buttons onClick={() => handleClick(2)}>✌</Buttons>
                 </GridItem>
             </Grid>
-            <Center gap="4" paddingY="3" fontSize="3xl">
-                <Link
-                    href="https://www.instagram.com/mertesen__/"
-                    target="_blank"
-                    _focus={{ border: 0 }}
-                >
-                    <FaInstagram />
-                </Link>
-                <Link
-                    href="https://github.com/mertesnn/"
-                    target="_blank"
-                    _focus={{ border: 0 }}
-                >
-                    <FaGithub />
-                </Link>
-                <Link
-                    href="https://www.linkedin.com/in/mert-esen/"
-                    target="_blank"
-                    _focus={{ border: 0 }}
-                >
-                    <FaLinkedinIn />
-                </Link>
-            </Center>
+            <Footer />
         </Center>
-    );
-};
+    )
+}
 
-export default App;
+export default App

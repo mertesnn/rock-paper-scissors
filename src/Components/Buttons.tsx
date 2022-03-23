@@ -1,7 +1,13 @@
 import { Button } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
-const Buttons = ({ children }: { children: ReactNode }) => {
+const Buttons = ({
+    children,
+    onClick,
+}: {
+    children: ReactNode;
+    onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+}) => {
     return (
         <Button
             variant="outline"
@@ -9,6 +15,7 @@ const Buttons = ({ children }: { children: ReactNode }) => {
             fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
             w={{ base: '100px', md: '130px', lg: '150px' }}
             h={{ base: '80px', md: '100px', lg: '120px' }}
+            onClick={onClick}
             _hover={{
                 backgroundColor: '#CC98E8',
                 borderColor: '#CC98E8',
