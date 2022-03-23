@@ -1,8 +1,11 @@
-import { Center, Grid, GridItem, Text, type TextProps } from '@chakra-ui/react'
-import { motion, useAnimation } from 'framer-motion'
+import { Center, Grid, GridItem, Text } from '@chakra-ui/react'
+import { useAnimation } from 'framer-motion'
 import { useState } from 'react'
-import Buttons from './Components/Buttons'
 import Footer from './Components/Footer'
+import Scores from './Components/Scores'
+import { checkWinner } from './utils/Functions'
+import Buttons from './Components/Buttons'
+import Board from './Components/Board'
 
 const App = () => {
     const [winner, setWinner] = useState<String | undefined>(undefined)
@@ -11,17 +14,6 @@ const App = () => {
     const [playerScore, setPlayerScore] = useState<any>(0)
     const [computerScore, setComputerScore] = useState<any>(0)
 
-    const checkWinner = (player: number, computer: number) => {
-        if (player === 0 && computer === 1) return 'Computer'
-        else if (player === 1 && computer === 2) return 'Computer'
-        else if (player === 2 && computer === 0) return 'Computer'
-        else if (player === 2 && computer === 1) return 'Player'
-        else if (player === 1 && computer === 0) return 'Player'
-        else if (player === 0 && computer === 2) return 'Player'
-        else return 'Tie!'
-    }
-
-    const MotionText = motion<TextProps>(Text)
     const controls = useAnimation()
 
     const handleClick = async (item: number) => {
@@ -72,12 +64,10 @@ const App = () => {
                     alignItems={{ base: 'center', xl: 'start' }}
                     justifyContent="center"
                 >
-                    <Text fontSize="4xl">
-                        🧑 Player: <Text as="span">{playerScore}</Text>
-                    </Text>
-                    <Text fontSize="4xl">
-                        💻 Computer: <Text as="span">{computerScore}</Text>
-                    </Text>
+                    <Scores
+                        playerScore={playerScore}
+                        computerScore={computerScore}
+                    />
                 </GridItem>
                 <GridItem
                     colSpan={2}
@@ -86,20 +76,12 @@ const App = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <Center gap={{ base: '16', sm: '20', md: '32' }}>
-                        <MotionText fontSize="8xl" animate={controls}>
-                            <Text transform="rotate(90deg)">{player}</Text>
-                        </MotionText>
-                        <MotionText fontSize="8xl" animate={controls}>
-                            <Text transform="rotate(270deg)">{computer}</Text>
-                        </MotionText>
-                    </Center>
-                    <Center>
-                        <Text as="div" w="100%" h="20px" fontSize="2xl">
-                            {winner &&
-                                winner + (winner !== 'Tie!' ? ' won! 🏆' : '')}
-                        </Text>
-                    </Center>
+                    <Board
+                        player={player}
+                        computer={computer}
+                        winner={winner}
+                        controls={controls}
+                    />
                 </GridItem>
                 <GridItem
                     display="flex"
@@ -108,9 +90,7 @@ const App = () => {
                     justifyContent="center"
                     gap="5"
                 >
-                    <Buttons onClick={() => handleClick(0)}>✊</Buttons>
-                    <Buttons onClick={() => handleClick(1)}>✋</Buttons>
-                    <Buttons onClick={() => handleClick(2)}>✌</Buttons>
+                    <Buttons handleClick={handleClick} />
                 </GridItem>
             </Grid>
             <Footer />
